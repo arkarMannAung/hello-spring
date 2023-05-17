@@ -3,24 +3,41 @@ package com.hello.spring.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.hello.spring.entity.User;
+import com.hello.spring.service.HelloService;
+
 @Controller
 public class HelloController {
-
+	
+	@Autowired
+	HelloService helloService;
+	
 	@GetMapping("/")
 	public String index(Model model) {
-		List<String> nameList = new ArrayList<>();
-		nameList.add("Amie");
-		nameList.add("Amie1");
-		nameList.add("Amie2");
-		nameList.add("Amie3");
-		nameList.add("Amie4");
-		model.addAttribute("names",nameList);
+		String input = "1000";
 		
-		model.addAttribute("title","Hello World");
+		int num = parseInt(input); //
+		
+		log(num+"");
+		
 		return "screens/index";
 	}
+	
+	private void log(String msg) {
+		System.out.println(msg);
+	}
+	
+	public int parseInt(String number) {
+		try {
+			return Integer.parseInt(number);
+		}catch (Exception e) {
+			return 0;
+		}
+	}
+	
 }
