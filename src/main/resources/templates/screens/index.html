@@ -8,12 +8,11 @@
   
     <div th:text="${title}" class="text-center py-5 bg-secondary text-light h1"></div>
     
-    <div th:replace="screens/header :: header( title=${title},names=${names} )">
+    
+    <div th:replace="screens/header :: header( title=${title}, names=${names} )">
     	
     </div>
     
-    
-  
   </body>
 
 </html>
