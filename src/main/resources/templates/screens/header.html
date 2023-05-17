@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<div th:fragment="header(title,names)"
+		class="text-center py-5 bg-secondary text-light h1">
+		This is Header From Component<br> <span th:text="${title}"></span>
+
+		<div th:each="name : ${names} " class="">
+			<div th:text="${name}" class="py-2"></div>
+		</div>
+	</div>
+
+</html>
