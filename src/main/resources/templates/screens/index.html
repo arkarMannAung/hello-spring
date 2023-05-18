@@ -5,8 +5,40 @@
   <head th:replace="fragments/common :: head('welcome - spring')"></head>
 
   <body>
-  
     <div class="text-center py-5 bg-secondary text-light h1"></div>
+    
+    <div class="mx-auto w-50">
+    	<div class="d-flex flex-row justify-content-center mt-5">
+    		<!-- string interpolation -->
+    		<!-- {id} (id=${id}) -->
+    		<a th:href="@{/send-by-path/{id}/{name} ( id=${id},name=${name} ) }" class="btn btn-primary">Send By Path "/path/23"</a>
+			
+    	</div>
+    	
+    	<br><br>
+    	
+    	<div class="d-flex flex-row justify-content-center mt-5">
+			<br><br>
+    		<!-- <a th:href="@{ '/send-by-parm?name='+${name}+'&age='+${age} }" class="btn btn-primary">Send By param?name=aarkar..."</a> -->
+			<a th:href="@{/send-by-parm?name={name}&age={age} ( name=${name}, age=${age} ) }" class="btn btn-primary">Send By Path "/path/23"</a>
+    	</div>
+    </div>
+    
+    <form th:action="@{/send-by-model}" method="POST" class="mx-auto w-50" th:object="${userForm}">
+    	<div class="form-group mb-3">
+    		<label for="username" class="form-label">User Name</label>
+    		<input class="form-control" type="text" id="username" th:field="*{username}"/>
+    		<div class="alert alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+    	</div>
+    	<div class="form-group mb-3">
+    		<label for="email" class="form-label">Email</label>
+    		<input class="form-control" type="email" id="email" th:field="*{email}"/>
+    		<div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+    	</div>
+		<div  class="d-flex flex-row justify-content-center mt-5">
+			<button type="submit">Submit</button>
+		</div>
+    </form>
     
   </body>
 
