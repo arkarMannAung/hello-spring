@@ -20,11 +20,17 @@
     	<div class="d-flex flex-row justify-content-center mt-5">
 			<br><br>
     		<!-- <a th:href="@{ '/send-by-parm?name='+${name}+'&age='+${age} }" class="btn btn-primary">Send By param?name=aarkar..."</a> -->
-			<a th:href="@{/send-by-parm?name={name}&age={age} ( name=${name}, age=${age} ) }" class="btn btn-primary">Send By Path "/path/23"</a>
+			<a th:href="@{/send-by-param?name={name}&age={age} ( name=${name}, age=${age} ) }" class="btn btn-primary">Send By Param?name='some'&age=23</a>
     	</div>
     </div>
     
     <form th:action="@{/send-by-model}" method="POST" class="mx-auto w-50" th:object="${userForm}">
+    	<div class="form-group mb-3">
+    		<label for="id" class="form-label">Id</label>
+    		<input class="form-control" type="text" id="id" th:field="*{id}"/>
+    		<div class="alert alert-warning" th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></div>
+    		<div class="alert alert-warning" th:if="${id_error}" th:text="${id_error}"></div>
+    	</div>
     	<div class="form-group mb-3">
     		<label for="username" class="form-label">User Name</label>
     		<input class="form-control" type="text" id="username" th:field="*{username}"/>
@@ -34,6 +40,11 @@
     		<label for="email" class="form-label">Email</label>
     		<input class="form-control" type="email" id="email" th:field="*{email}"/>
     		<div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+    	</div>
+    	<div class="form-group mb-3">
+    		<label for="birthDay" class="form-label">Date</label>
+    		<input class="form-control" type="date" id="birthDay" th:field="*{birthDay}"/>
+    		<div class="alert alert-warning" th:if="${#fields.hasErrors('birthDay')}" th:errors="*{birthDay}"></div>
     	</div>
 		<div  class="d-flex flex-row justify-content-center mt-5">
 			<button type="submit">Submit</button>

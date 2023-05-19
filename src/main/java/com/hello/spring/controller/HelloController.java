@@ -2,6 +2,8 @@ package com.hello.spring.controller;
 
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.hello.spring.entity.UserEntity;
 import com.hello.spring.form.UserForm;
 import com.hello.spring.service.CommonService;
 import com.hello.spring.service.HelloService;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
 
 @Controller
@@ -28,7 +32,28 @@ public class HelloController {
 	HelloService helloService;
 	
 	@Autowired
+	CommonService common;
+	
+	@Autowired
 	CommonService helper;
+	
+	@PostConstruct
+	public void init() {
+		// test toForm
+		/*
+		UserEntity userEntity = new UserEntity();
+		userEntity.setBirthDay(new Date());
+		UserForm userForm2 = userEntity.toForm();
+		helper.log("date : " + userForm2 );
+		 */
+		
+		// test toEntity
+		UserForm userForm = new UserForm();
+//		userForm.setId("100");
+//		userForm.setBirthDay("2023-05-19");
+		
+		helper.log("entity : " + userForm.toEntity());
+	}
 	
 	@GetMapping("/")
 	public String index(Model model) {
@@ -36,9 +61,10 @@ public class HelloController {
 		model.addAttribute("name","Jhon Doe");
 		model.addAttribute("age",23);
 		
-//		UserForm userForm = new UserForm();
-//		userForm.setUsername("Hello World, 08896");
-		model.addAttribute("userForm", new UserForm());
+		UserEntity userEntity = new UserEntity();
+		userEntity.setBirthDay(new Date());
+		
+		model.addAttribute("userForm", userEntity.toForm());
 		return "screens/index";
 	}
 	
@@ -62,20 +88,12 @@ public class HelloController {
 	
 	// model attribute
 	@PostMapping("/send-by-model")
-	public String byModel(@Valid @ModelAttribute("userForm") UserForm userForm, BindingResult result ) {
+	public String byModel(@Valid @ModelAttribute("userForm") UserForm userForm, BindingResult result, Model model ) {
 		
-		if( result.hasErrors() ) {
+		if( result.hasErrors() || !this.common.userFormValidator(userForm, model) ) {
 			return "screens/index";
 		}
-		
-		// db: query 
-		
-//		for( FieldError error : result.getFieldErrors() ) {
-//			helper.log( error.getField() + " : " +error.getDefaultMessage() );
-//		}
-		
-//		helper.log(userForm);
-		
+		helper.log(userForm.toEntity());
 		return "redirect:/";
 	}
 	
